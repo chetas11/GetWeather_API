@@ -2,98 +2,76 @@ const Container = document.createElement("div");
 Container.classList.add("container")
 document.body.append(Container)
 
-const Row = document.createElement("div");
-Row.classList.add("row")
-Container.append(Row)
-
-const Col1 = document.createElement("div");
-Col1.classList.add("col-lg-4","col-sm-6")
-Row.append(Col1)
-
-const Col2 = document.createElement("div");
-Col2.classList.add("col-lg-4","col-sm-6")
-Row.append(Col2)
-
-const Col3 = document.createElement("div");
-Col3.classList.add("col-lg-4","col-sm-6")
-Row.append(Col3)
-
 function createRow() {
     let Row = document.createElement("div");
-    Row.classList.add("row")
+    Row.classList.add("row","mt-4")
     return Row
 }
 
-function createColumns(){
-    let Col = document.createElement("div");
-    Col.classList.add("col-lg-4","col-sm-6")
-    return Col
+for(i=0; i<84; i++){
+    Row = createRow()
+    appendElement(Container,Row)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
 }
 
-Row2 = createRow();
-appendElement(Container,Row2)
-Row2Col1 = createColumns()
-appendElement(Row2,Row2Col1)
+
+function createColumns(){
+    let Col = document.createElement("div");
+    Col.classList.add("col-lg-4","col-sm-6");
+    return Col;
+}
+
+function Modal() {
+    let Modal = document.createElement("div");
+    Modal.classList.add("modal","fade","bd-example-modal-sm");
+    Modal.setAttribute("role","dialog");
+
+    let ModalInner = document.createElement("div");
+    ModalInner.classList.add("modal-dialog", "modal-dialog-centered");
+    Modal.appendChild(ModalInner);
+
+    let ModalContent = document.createElement("div");
+    ModalContent.classList.add("modal-content","text-center")
+    ModalInner.appendChild(ModalContent)
+
+    let ModalIcon = document.createElement("img");
+    ModalIcon.classList.add("img-fluid", "text-center");
+    ModalIcon.src = "";
+    ModalContent.appendChild(ModalIcon)
+
+    let ModalHeading = document.createElement("div");
+    ModalHeading.classList.add("weather")
+    ModalHeading.innerText = ""
+    ModalContent.appendChild(ModalHeading)
+
+
+
+    return Modal
+}
+
+newModal = Modal();
+Container.appendChild(newModal)
+
+function appendElement(parent, cardName){
+    parent.appendChild(cardName)
+}
 
 
 
 
-const fetchData = (url) => {
-    return new Promise((res, rej) => {
-        fetch(url).then((res) => res.json())
-        .then((data) => res(data))
-        .catch((e)=> rej(e));
-        
-    })
-};
 
-fetchData("https://restcountries.eu/rest/v2/all")
-.then((data) =>{
-
-    let randomNum = Math.floor(Math.random()*250);
-    // console.log(randomNum)
-
-     let CardTitle = document.querySelectorAll("h5")
-     let Capital = document.querySelectorAll(".capital")
-     let Region = document.querySelectorAll(".region")
-     let CountryCode = document.querySelectorAll(".code")
-     let LatLan = document.querySelectorAll(".latlan")
-     let CardImg = document.querySelectorAll("img")
-     let WeatherBtn = document.querySelectorAll(".btn")
-     let Weather = document.querySelectorAll(".weather")
-
-     console.log(Weather)
-
-    
-     
-    for(i=0; i<4; i++){
-        
-    let randomNum = Math.floor(Math.random()*250);
-
-    CardTitle[i].innerText = data[randomNum].name
-    Capital[i].innerText = "Capital:"+data[randomNum].capital
-    Region[i].innerText = "Region:"+data[randomNum].region
-    CountryCode[i].innerText = "Country Code:"+data[randomNum].cioc
-    LatLan[i].innerText = "Latitude and Langitude: "+data[randomNum].latlng[0]+", "+data[randomNum].latlng[1]
-    CardImg[i].src =  data[randomNum].flag
-    
-    WeatherBtn[i].addEventListener("click",function(){
-        fetch("https://api.openweathermap.org/data/2.5/weather?lat="+data[randomNum].latlng[0]+"&lon="+data[randomNum].latlng[1]+"&appid=APIKEY").then(res => {
-        return res.json();
-    }).then(function(res) {
-        Weather[i].innerText = (res.weather[0].description);
-
-        console.log(res.weather[0].description);
-
-    });
-})
-
-    }
-})
-
-
-
-function makeCard(){
+function createCard(){
     let cardName = document.createElement("div");
     cardName.classList.add("card", "text-center")
   
@@ -104,6 +82,7 @@ function makeCard(){
 
     let CardTitle = document.createElement("h5");
     CardTitle.innerText = "Card title"
+    CardTitle.classList.add("card-title")
     cardBody.append(CardTitle)
 
     let CardImg = document.createElement("img");
@@ -131,31 +110,85 @@ function makeCard(){
     LatLan.classList.add("card-text","latlan")
     cardBody.append(LatLan)
 
-    let Weather = document.createElement("p");
-    Weather.innerText = ""
-    Weather.classList.add("card-text", "weather")
-    cardBody.append(Weather)
-
     let WeatherBtn = document.createElement("button");
     WeatherBtn.innerText = "Click for weather"
     WeatherBtn.classList.add("btn", "btn-primary")
+    WeatherBtn.setAttribute("data-toggle","modal")
+    WeatherBtn.setAttribute("data-target",".bd-example-modal-sm")
     cardBody.append(WeatherBtn)
+
+
 
     return cardName
 }
 
-function appendElement(parent, cardName){
-    parent.append(cardName)
+
+const fetchData = (url) => {
+    return new Promise((res, rej) => {
+        fetch(url).then((res) => res.json())
+        .then((data) => res(data))
+        .catch((e)=> rej(e));
+        
+    })
+};
+
+fetchData("https://restcountries.eu/rest/v2/all")
+.then((data) =>{
+
+     let CardTitle = document.querySelectorAll("h5")
+     let Capital = document.querySelectorAll(".capital")
+     let Region = document.querySelectorAll(".region")
+     let CountryCode = document.querySelectorAll(".code")
+     let LatLan = document.querySelectorAll(".latlan")
+     let CardImg = document.querySelectorAll("img")
+     let WeatherBtn = document.querySelectorAll("button")
+     let ModalHeading = document.querySelector(".weather")
+     let Icon = document.querySelector(".img-fluid")
+     
+
+     
+
+    
+     
+    for(i=0; i<data.length; i++){
+
+        CardTitle[i].innerText = data[i].name
+        Capital[i].innerText = "Capital:"+data[i].capital
+        Region[i].innerText = "Region:"+data[i].region
+        CountryCode[i].innerText = "Country Code:"+data[i].cioc
+        LatLan[i].innerText = "Latitude and Langitude: "+data[i].latlng[0]+", "+data[i].latlng[1]
+        CardImg[i].src =  data[i].flag
+
+        let lat = data[i].latlng[0]
+        let long = data[i].latlng[1]
+    
+ 
+        WeatherBtn[i].addEventListener("click",function(){
+        fetch("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+long+"&appid=e075a128a6a8c01f093dbe05e203a7b5").then(res => {
+        return res.json();
+        }).then(function(res) {
+
+                let temp = (res.main.temp-273.15).toFixed(2)
+                ModalHeading.innerText = res.weather[0].description.toUpperCase();
+                ModalHeading.innerText = ModalHeading.innerText + " Temp: "+ temp+"°C"
+                let iconcode = res.weather[0].icon;
+                Icon.src = "http://openweathermap.org/img/wn/"+iconcode+"@2x.png";
+
+                
+
+        });
+        
+    });
 }
 
-Card1 = makeCard()
-appendElement(Col1, Card1);
-Card2 = makeCard()
-appendElement(Col2, Card2);
-Card3 = makeCard()
-appendElement(Col3, Card3);
-Card4 = makeCard()
-appendElement(Row2Col1, Card4);
+
+});
+
+
+
+
+
+
 
 
 
