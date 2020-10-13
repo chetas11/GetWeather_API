@@ -1,6 +1,7 @@
-const Container = document.createElement("div");
-Container.classList.add("container")
-document.body.append(Container)
+
+// -----------------------------Functions---------------------------------------------------
+
+//Function to create Row's
 
 function createRow() {
     let Row = document.createElement("div");
@@ -8,29 +9,15 @@ function createRow() {
     return Row
 }
 
-for(i=0; i<84; i++){
-    Row = createRow()
-    appendElement(Container,Row)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
-}
-
+//Function to create Column's
 
 function createColumns(){
     let Col = document.createElement("div");
     Col.classList.add("col-lg-4","col-sm-6");
     return Col;
 }
+
+//Function to create Modal.
 
 function Modal() {
     let Modal = document.createElement("div");
@@ -55,21 +42,10 @@ function Modal() {
     ModalHeading.innerText = ""
     ModalContent.appendChild(ModalHeading)
 
-
-
     return Modal
 }
 
-newModal = Modal();
-Container.appendChild(newModal)
-
-function appendElement(parent, cardName){
-    parent.appendChild(cardName)
-}
-
-
-
-
+//Function to create Card.
 
 function createCard(){
     let cardName = document.createElement("div");
@@ -82,7 +58,7 @@ function createCard(){
 
     let CardTitle = document.createElement("h5");
     CardTitle.innerText = "Card title"
-    CardTitle.classList.add("card-title")
+    CardTitle.classList.add("card-header")
     cardBody.append(CardTitle)
 
     let CardImg = document.createElement("img");
@@ -116,11 +92,44 @@ function createCard(){
     WeatherBtn.setAttribute("data-toggle","modal")
     WeatherBtn.setAttribute("data-target",".bd-example-modal-sm")
     cardBody.append(WeatherBtn)
-
-
-
     return cardName
 }
+
+//Function to append Element.
+
+function appendElement(parent, cardName){
+    parent.appendChild(cardName)
+}
+
+
+// -----------------------------Structure Part----------------------------------------------------
+
+const Container = document.createElement("div");
+Container.classList.add("container")
+document.body.append(Container)
+
+for(i=0; i<84; i++){                    //for loop to render rows, col and cards
+    Row = createRow()
+    appendElement(Container,Row)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
+    Col = createColumns()
+    appendElement(Row,Col)
+    Card = createCard()
+    appendElement(Col,Card)
+}
+
+newModal = Modal();
+Container.appendChild(newModal)
+
+
+//-----------------------------Rest Counntry API and OpenWeather API to fetch the Data---------------
 
 
 const fetchData = (url) => {
@@ -144,18 +153,13 @@ fetchData("https://restcountries.eu/rest/v2/all")
      let WeatherBtn = document.querySelectorAll("button")
      let ModalHeading = document.querySelector(".weather")
      let Icon = document.querySelector(".img-fluid")
-     
 
-     
-
-    
-     
     for(i=0; i<data.length; i++){
 
         CardTitle[i].innerText = data[i].name
-        Capital[i].innerText = "Capital:"+data[i].capital
-        Region[i].innerText = "Region:"+data[i].region
-        CountryCode[i].innerText = "Country Code:"+data[i].cioc
+        Capital[i].innerText = "Capital: "+data[i].capital
+        Region[i].innerText = "Region: "+data[i].region
+        CountryCode[i].innerText = "Country Code: "+data[i].cioc
         LatLan[i].innerText = "Latitude and Langitude: "+data[i].latlng[0]+", "+data[i].latlng[1]
         CardImg[i].src =  data[i].flag
 
@@ -172,9 +176,7 @@ fetchData("https://restcountries.eu/rest/v2/all")
                 ModalHeading.innerText = res.weather[0].description.toUpperCase();
                 ModalHeading.innerText = ModalHeading.innerText + " Temp: "+ temp+"°C"
                 let iconcode = res.weather[0].icon;
-                Icon.src = "http://openweathermap.org/img/wn/"+iconcode+"@2x.png";
-
-                
+                Icon.src = "http://openweathermap.org/img/wn/"+iconcode+"@2x.png";       
 
         });
         

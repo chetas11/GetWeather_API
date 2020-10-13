@@ -9,8 +9,10 @@ img {
   height: 50%;
 }
 
-.card-title {
+.card-header {
   font-family: "IBM Plex Serif", serif;
+  background-color: #f4f4f4;
+  border: 1px solid #133b5c;
 }
 
 .card-body {
@@ -22,7 +24,6 @@ img {
   color: rgb(84, 84, 165);
   font-size: 2rem;
   font-family: "Piedra", cursive;
-  font-weight: bolder;
 }
 
 .card {
