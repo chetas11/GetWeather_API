@@ -13,7 +13,7 @@ function createRow() {
 
 function createColumns(){
     let Col = document.createElement("div");
-    Col.classList.add("col-lg-4","col-sm-6");
+    Col.classList.add("col-lg-4","col-md-12","col-sm-6");
     return Col;
 }
 
@@ -173,8 +173,9 @@ fetchData("https://restcountries.eu/rest/v2/all")
         }).then(function(res) {
 
                 let temp = (res.main.temp-273.15).toFixed(2)
+                let humidity = res.main.humidity
                 ModalHeading.innerText = res.weather[0].description.toUpperCase();
-                ModalHeading.innerText = ModalHeading.innerText + " Temp: "+ temp+"°C"
+                ModalHeading.innerText = ModalHeading.innerText + ", Temp: "+ temp+"°C, Humidity "+humidity+"%"
                 let iconcode = res.weather[0].icon;
                 Icon.src = "http://openweathermap.org/img/wn/"+iconcode+"@2x.png";       
 
