@@ -1,22 +1,6 @@
 
 // -----------------------------Functions---------------------------------------------------
 
-//Function to create Row's
-
-function createRow() {
-    let Row = document.createElement("div");
-    Row.classList.add("row","mt-4")
-    return Row
-}
-
-//Function to create Column's
-
-function createColumns(){
-    let Col = document.createElement("div");
-    Col.classList.add("col-lg-4","col-md-12","col-sm-6");
-    return Col;
-}
-
 //Function to create Modal.
 
 function Modal() {
@@ -57,7 +41,7 @@ function createCard(){
     cardName.append(cardBody)
 
     let CardTitle = document.createElement("h5");
-    CardTitle.innerText = "Card title"
+    CardTitle.innerText = ""
     CardTitle.classList.add("card-header")
     cardBody.append(CardTitle)
 
@@ -92,37 +76,26 @@ function createCard(){
     WeatherBtn.setAttribute("data-toggle","modal")
     WeatherBtn.setAttribute("data-target",".bd-example-modal-sm")
     cardBody.append(WeatherBtn)
-    return cardName
+    
+    let Col = document.createElement("div")
+    Col.classList.add("col-lg-4","col-sm-6")
+    
+    Col.append(cardName)
+    Row.append(Col)
+
 }
-
-//Function to append Element.
-
-function appendElement(parent, cardName){
-    parent.appendChild(cardName)
-}
-
-
 // -----------------------------Structure Part----------------------------------------------------
 
 const Container = document.createElement("div");
 Container.classList.add("container")
 document.body.append(Container)
 
-for(i=0; i<84; i++){                    //for loop to render rows, col and cards
-    Row = createRow()
-    appendElement(Container,Row)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
-    Col = createColumns()
-    appendElement(Row,Col)
-    Card = createCard()
-    appendElement(Col,Card)
+let Row = document.createElement("div")
+Row.classList.add("row")
+Container.appendChild(Row)
+
+for(i=0; i<250; i++){                    //for loop to render rows, col and cards
+    createCard()
 }
 
 newModal = Modal();
@@ -153,7 +126,9 @@ fetchData("https://restcountries.eu/rest/v2/all")
      let WeatherBtn = document.querySelectorAll("button")
      let ModalHeading = document.querySelector(".weather")
      let Icon = document.querySelector(".img-fluid")
-
+     
+  
+     
     for(i=0; i<data.length; i++){
 
         CardTitle[i].innerText = data[i].name
@@ -183,7 +158,7 @@ fetchData("https://restcountries.eu/rest/v2/all")
         
     });
 }
-
+            
 
 });
 
